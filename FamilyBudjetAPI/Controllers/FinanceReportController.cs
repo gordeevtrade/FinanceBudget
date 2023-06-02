@@ -1,10 +1,12 @@
 ﻿using FamilyBudjetAPI.Sevices.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class FinanceReportController : ControllerBase
     {
         private readonly IFinanceReportService _financeReportService;

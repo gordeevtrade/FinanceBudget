@@ -1,31 +1,30 @@
-﻿using FamilyBudjetAPI.Sevices.Interface;
+﻿using Budget.DAL.Repositories.Interfaces;
+using FamilyBudjetAPI.Sevices.Interface;
 
 namespace FamilyBudjetAPI.Sevices
 {
     public class CategoryService : ICategoryService
     {
-        private readonly FinanceContext _context;
+        private IUnitOfWOrk _unitOfWork;
 
-        public CategoryService(FinanceContext context)
+        public CategoryService(IUnitOfWOrk unitOfWOrk)
         {
-            _context = context;
+            _unitOfWork = unitOfWOrk;
         }
 
         public IEnumerable<Category> GetCategories()
         {
-            return _context.Categories.ToList();
+            return _unitOfWork.CategoryRepository.GetAll();
         }
 
         public Category CreateCategory(Category category)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-            return category;
+            return _unitOfWork.CategoryRepository.Create(category);
         }
 
         public Category GetCategory(int id)
         {
-            var category = _context.Categories.Find(id);
+            var category = _unitOfWork.CategoryRepository.Get(id);
             if (category == null)
             {
                 throw new Exception($"Category with id {id} not found");
@@ -35,40 +34,34 @@ namespace FamilyBudjetAPI.Sevices
 
         public IEnumerable<Category> GetCategoriesByCategoryType(int categoryTypeId)
         {
-            var categorys = _context.Categories
-                .Where(c => c.CategoryTypeId == categoryTypeId)
-                .ToList();
-
+            var categorys = _unitOfWork.CategoryRepository.GetByCategoryType(categoryTypeId);
             if (!categorys.Any())
             {
                 throw new Exception("Category not found for the provided category");
             }
-
             return categorys;
         }
 
         public void UpdateCategory(int id, Category updatedCategory)
         {
-            var category = _context.Categories.Find(id);
+            var category = _unitOfWork.CategoryRepository.Get(id);
             if (category == null)
             {
                 throw new Exception($"Category with id {id} not found");
             }
             category.Name = updatedCategory.Name;
             category.CategoryTypeId = updatedCategory.CategoryTypeId;
-            _context.Update(category);
-            _context.SaveChanges();
+            _unitOfWork.CategoryRepository.Update(category);
         }
 
         public void DeleteCategory(int id)
         {
-            var category = _context.Categories.Find(id);
+            var category = _unitOfWork.CategoryRepository.Get(id);
             if (category == null)
             {
                 throw new Exception($"Category with id {id} not found");
             }
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            _unitOfWork.CategoryRepository.Delete(category);
         }
     }
 }

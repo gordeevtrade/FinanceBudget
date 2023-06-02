@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using FamilyBudjetAPI.DTOModels;
 using FamilyBudjetAPI.Sevices.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;

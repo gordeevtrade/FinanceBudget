@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using FamilyBudjetAPI.DTOModels;
 using FamilyBudjetAPI.Sevices.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoryTypeController : ControllerBase
     {
         private readonly ICategoryTypeService _categoryTypeService;
@@ -31,9 +34,7 @@ namespace FamilyBudjetAPI.Controllers
         {
             var categoryType = _mapper.Map<CategoryType>(categoryTypeDto);
             var createdCategoryType = _categoryTypeService.CreateCategoryType(categoryType);
-
             var createdCategoryTypeDto = _mapper.Map<CategoryTypeDto>(createdCategoryType);
-
             return Ok(createdCategoryTypeDto);
         }
 
@@ -45,6 +46,10 @@ namespace FamilyBudjetAPI.Controllers
                 var categoryType = _categoryTypeService.GetCategoryType(id);
                 var categoryTypeDto = _mapper.Map<CategoryTypeDto>(categoryType);
                 return Ok(categoryTypeDto);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Database exception: {dbEx.Message}");
             }
             catch (Exception ex)
             {
@@ -61,6 +66,10 @@ namespace FamilyBudjetAPI.Controllers
                 _categoryTypeService.UpdateCategoryType(id, updatedCategoryType);
                 return NoContent();
             }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Database exception: {dbEx.Message}");
+            }
             catch (Exception ex)
             {
                 return NotFound(ex.Message);
@@ -74,6 +83,10 @@ namespace FamilyBudjetAPI.Controllers
             {
                 _categoryTypeService.DeleteCategoryType(id);
                 return NoContent();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Database exception: {dbEx.Message}");
             }
             catch (Exception ex)
             {

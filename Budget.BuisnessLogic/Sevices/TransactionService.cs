@@ -1,24 +1,25 @@
-﻿using FamilyBudjetAPI.Sevices.Interface;
+﻿using Budget.DAL.Repositories.Interfaces;
+using FamilyBudjetAPI.Sevices.Interface;
 
 namespace FamilyBudjetAPI.Sevices
 {
     public class TransactionService : ITransactionService
     {
-        private readonly FinanceContext _context;
+        private IUnitOfWOrk _unitOfWOrk;
 
-        public TransactionService(FinanceContext context)
+        public TransactionService(IUnitOfWOrk unitOfWOrk)
         {
-            _context = context;
+            _unitOfWOrk = unitOfWOrk;
         }
 
         public IEnumerable<FinanceTransaction> GetTransactions()
         {
-            return _context.FinacneTransactions.ToList();
+            return _unitOfWOrk.FinanceTransactionRepository.GetAll();
         }
 
         public FinanceTransaction GetTransaction(int id)
         {
-            var transaction = _context.FinacneTransactions.Find(id);
+            var transaction = _unitOfWOrk.FinanceTransactionRepository.Get(id);
 
             if (transaction == null)
             {
@@ -30,14 +31,13 @@ namespace FamilyBudjetAPI.Sevices
 
         public FinanceTransaction CreateTransaction(FinanceTransaction transaction)
         {
-            _context.FinacneTransactions.Add(transaction);
-            _context.SaveChanges();
+            _unitOfWOrk.FinanceTransactionRepository.Create(transaction);
             return transaction;
         }
 
         public void UpdateTransaction(int id, FinanceTransaction updatedTransaction)
         {
-            var transaction = _context.FinacneTransactions.Find(id);
+            var transaction = _unitOfWOrk.FinanceTransactionRepository.Get(id);
 
             if (transaction == null)
             {
@@ -48,27 +48,23 @@ namespace FamilyBudjetAPI.Sevices
             transaction.Date = updatedTransaction.Date;
             transaction.Note = updatedTransaction.Note;
             transaction.CategoryId = updatedTransaction.CategoryId;
-            _context.Update(transaction);
-            _context.SaveChanges();
+            _unitOfWOrk.FinanceTransactionRepository.Update(transaction);
         }
 
         public void DeleteTransaction(int id)
         {
-            var transaction = _context.FinacneTransactions.Find(id);
+            var transaction = _unitOfWOrk.FinanceTransactionRepository.Get(id);
 
             if (transaction == null)
             {
                 throw new Exception($"Transaction with id {id} not found");
             }
-            _context.FinacneTransactions.Remove(transaction);
-            _context.SaveChanges();
+            _unitOfWOrk.FinanceTransactionRepository.Delete(transaction);
         }
 
         public IEnumerable<FinanceTransaction> GetTransactionsByCategory(int categoryId)
         {
-            var transactions = _context.FinacneTransactions
-                .Where(t => t.CategoryId == categoryId)
-                .ToList();
+            var transactions = _unitOfWOrk.FinanceTransactionRepository.GetByCategory(categoryId);
 
             if (!transactions.Any())
             {

@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Budget.DAL.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace FamilyBudjetAPI
 {
-    public class FinanceContext : DbContext
+    public class FinanceContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<CategoryType> CategoryTypes { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -13,8 +15,14 @@ namespace FamilyBudjetAPI
         {
         }
 
+        public FinanceContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             var incomeCategoryType = new CategoryType { Id = 1, Name = "Income" };
             var expenseCategoryType = new CategoryType { Id = 2, Name = "Expense" };
 

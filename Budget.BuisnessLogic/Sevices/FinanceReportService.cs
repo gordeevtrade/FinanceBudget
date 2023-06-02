@@ -1,14 +1,15 @@
-﻿using FamilyBudjetAPI.Sevices.Interface;
+﻿using Budget.DAL.Repositories.Interfaces;
+using FamilyBudjetAPI.Sevices.Interface;
 
 namespace FamilyBudjetAPI.Sevices
 {
     public class FinanceReportService : IFinanceReportService
     {
-        private readonly FinanceContext _context;
+        private IUnitOfWOrk _unitOfWOrk;
 
-        public FinanceReportService(FinanceContext context)
+        public FinanceReportService(IUnitOfWOrk unitOfWOrk)
         {
-            _context = context;
+            _unitOfWOrk = unitOfWOrk;
         }
 
         public DailyReport GetDailyReport(DateTime date)
@@ -68,9 +69,7 @@ namespace FamilyBudjetAPI.Sevices
 
         private List<FinanceTransaction> GetTransactions(DateTime startDate, DateTime endDate)
         {
-            return _context.FinacneTransactions
-                .Where(t => t.Date.Date >= startDate.Date && t.Date.Date <= endDate.Date)
-                .ToList();
+            return _unitOfWOrk.FinanceTransactionRepository.GetTransactions(startDate, endDate);
         }
     }
 }

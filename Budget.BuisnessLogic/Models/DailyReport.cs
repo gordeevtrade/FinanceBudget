@@ -1,10 +1,9 @@
-﻿namespace FamilyBudjetAPI
+﻿using Budget.BuisnessLogic.Models;
+
+namespace FamilyBudjetAPI
 {
-    public class DailyReport
+    public class DailyReport : Report
     {
         public DateTime Date { get; set; }
-        public decimal TotalIncome { get; set; }
-        public decimal TotalExpenses { get; set; }
-        public List<FinanceTransaction> Transactions { get; set; }
     }
 }
