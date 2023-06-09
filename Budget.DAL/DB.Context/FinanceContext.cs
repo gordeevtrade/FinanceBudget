@@ -1,14 +1,14 @@
-﻿using Budget.DAL.DAL.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Domain.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FamilyBudjetAPI
 {
-    public class FinanceContext : IdentityDbContext<ApplicationUser>
+    public class FinanceContext : DbContext
     {
         public DbSet<CategoryType> CategoryTypes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<FinanceTransaction> FinacneTransactions { get; set; }
+        public DbSet<User> UserRegistration { get; set; }
 
         public FinanceContext(DbContextOptions<FinanceContext> options)
    : base(options)

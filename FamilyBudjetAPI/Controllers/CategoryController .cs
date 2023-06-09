@@ -8,7 +8,7 @@ namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Google,User")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

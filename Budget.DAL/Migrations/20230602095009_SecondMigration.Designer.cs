@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budget.DAL.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20230523112929_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230602095009_SecondMigration")]
+    partial class SecondMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace Budget.DAL.Migrations
                             Id = 1,
                             Amount = 1000m,
                             CategoryId = 1,
-                            Date = new DateTime(2023, 5, 23, 14, 29, 29, 557, DateTimeKind.Local).AddTicks(6986),
+                            Date = new DateTime(2023, 6, 2, 12, 50, 9, 535, DateTimeKind.Local).AddTicks(432),
                             Note = "Salary for May"
                         },
                         new
@@ -149,7 +149,7 @@ namespace Budget.DAL.Migrations
                             Id = 2,
                             Amount = 950m,
                             CategoryId = 2,
-                            Date = new DateTime(2023, 5, 23, 14, 29, 29, 557, DateTimeKind.Local).AddTicks(7031),
+                            Date = new DateTime(2023, 6, 2, 12, 50, 9, 535, DateTimeKind.Local).AddTicks(476),
                             Note = "Microsoft"
                         },
                         new
@@ -157,7 +157,7 @@ namespace Budget.DAL.Migrations
                             Id = 3,
                             Amount = 1850m,
                             CategoryId = 3,
-                            Date = new DateTime(2023, 5, 23, 14, 29, 29, 557, DateTimeKind.Local).AddTicks(7038),
+                            Date = new DateTime(2023, 6, 2, 12, 50, 9, 535, DateTimeKind.Local).AddTicks(482),
                             Note = "Avalon"
                         },
                         new
@@ -165,7 +165,7 @@ namespace Budget.DAL.Migrations
                             Id = 4,
                             Amount = -200m,
                             CategoryId = 4,
-                            Date = new DateTime(2023, 5, 23, 14, 29, 29, 557, DateTimeKind.Local).AddTicks(7044),
+                            Date = new DateTime(2023, 6, 2, 12, 50, 9, 535, DateTimeKind.Local).AddTicks(488),
                             Note = "Grocery shopping"
                         },
                         new
@@ -173,7 +173,7 @@ namespace Budget.DAL.Migrations
                             Id = 5,
                             Amount = -8700m,
                             CategoryId = 5,
-                            Date = new DateTime(2023, 5, 23, 14, 29, 29, 557, DateTimeKind.Local).AddTicks(7049),
+                            Date = new DateTime(2023, 6, 2, 12, 50, 9, 535, DateTimeKind.Local).AddTicks(493),
                             Note = "Собаки "
                         });
                 });

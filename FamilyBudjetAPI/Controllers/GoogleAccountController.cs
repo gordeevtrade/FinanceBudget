@@ -20,12 +20,6 @@ namespace FamilyBudjetAPI.Controllers
             return Redirect(_googleAuthService.GetAuthUrl());
         }
 
-        [HttpGet("xx")]
-        public IActionResult Login2()
-        {
-            return Ok("dfsfs");
-        }
-
         [HttpGet]
         [Route("callback")]
         public async Task<ActionResult<string>> ReturnGoogleToken(string code)

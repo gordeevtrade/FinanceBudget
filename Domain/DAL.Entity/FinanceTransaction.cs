@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FamilyBudjetAPI
 {
@@ -13,8 +12,6 @@ namespace FamilyBudjetAPI
         public DateTime Date { get; set; }
         public string Note { get; set; }
         public int CategoryId { get; set; }
-
-        // [JsonIgnore]
         public Category? Category { get; set; }
     }
 }

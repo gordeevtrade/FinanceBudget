@@ -1,8 +1,9 @@
 ﻿namespace FamilyBudjetAPI
 {
-    public class DailyReport
+    public class PeriodReportDto
     {
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public decimal TotalIncome { get; set; }
         public decimal TotalExpenses { get; set; }
         public List<FinanceTransaction> Transactions { get; set; }

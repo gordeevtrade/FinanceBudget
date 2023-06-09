@@ -1,4 +1,5 @@
-﻿using FamilyBudjetAPI.Sevices.Interface;
+﻿using AutoMapper;
+using FamilyBudjetAPI.Sevices.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,23 +7,26 @@ namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Google,User")]
     public class FinanceReportController : ControllerBase
     {
         private readonly IFinanceReportService _financeReportService;
+        private readonly IMapper _mapper;
 
-        public FinanceReportController(IFinanceReportService financeReportService)
+        public FinanceReportController(IFinanceReportService financeReportService, IMapper mapper)
         {
             _financeReportService = financeReportService;
+            _mapper = mapper;
         }
 
         [HttpGet("daily")]
-        public ActionResult<DailyReport> GetDailyReport(DateTime date)
+        public ActionResult<DailyReportDto> GetDailyReport(DateTime date)
         {
             try
             {
                 var dailyReport = _financeReportService.GetDailyReport(date);
-                return Ok(dailyReport);
+                var dailyReportDto = _mapper.Map<DailyReportDto>(dailyReport);
+                return Ok(dailyReportDto);
             }
             catch (Exception ex)
             {
@@ -31,12 +35,14 @@ namespace FamilyBudjetAPI.Controllers
         }
 
         [HttpGet("period")]
-        public ActionResult<PeriodReport> GetPeriodReport(DateTime startDate, DateTime endDate)
+        public ActionResult<PeriodReportDto> GetPeriodReport(DateTime startDate, DateTime endDate)
         {
             try
             {
                 var periodReport = _financeReportService.GetPeriodReport(startDate, endDate);
-                return Ok(periodReport);
+                var periodReportDto = _mapper.Map<PeriodReportDto>(periodReport);
+
+                return Ok(periodReportDto);
             }
             catch (Exception ex)
             {

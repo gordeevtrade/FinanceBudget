@@ -10,6 +10,8 @@ namespace FamilyBudjetAPI.Mapping
             CreateMap<CategoryType, CategoryTypeDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<FinanceTransaction, FinanceTransactionDto>().ReverseMap();
+            CreateMap<PeriodReport, PeriodReportDto>();
+            CreateMap<DailyReport, DailyReportDto>();
         }
     }
 }

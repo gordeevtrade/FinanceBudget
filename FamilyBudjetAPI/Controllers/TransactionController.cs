@@ -8,7 +8,7 @@ namespace FamilyBudjetAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Google,User")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;

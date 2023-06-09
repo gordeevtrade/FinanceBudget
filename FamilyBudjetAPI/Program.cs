@@ -6,19 +6,40 @@ using FamilyBudjetAPI;
 using FamilyBudjetAPI.Mapping;
 using FamilyBudjetAPI.Sevices;
 using FamilyBudjetAPI.Sevices.Interface;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string jwtSecretKey = builder.Configuration["MyTokens:JwtSecretKey"];
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(options =>
+//{
+//    options.Authority = builder.Configuration["GoogleAuth:Authority"];
+//    options.Audience = builder.Configuration["GoogleAuth:ClientId"];
+//    options.MetadataAddress = builder.Configuration["GoogleAuth:GoogleKeys"];
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true
+//    };
+//});
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    options.DefaultScheme = "User";
+    options.DefaultAuthenticateScheme = "User";
+    options.DefaultChallengeScheme = "User";
+})
+.AddJwtBearer("Google", options =>
 {
     options.Authority = builder.Configuration["GoogleAuth:Authority"];
     options.Audience = builder.Configuration["GoogleAuth:ClientId"];
@@ -29,6 +50,19 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true
+    };
+})
+.AddJwtBearer("User", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["UserAuth:Issuer"],
+        ValidAudience = builder.Configuration["UserAuth:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("123123123_іваіва23423423847а8мг3489347а8г3948е7348к7рівапорапіоапіо34757465765вапвапвамвапвапкапвапвап"))
     };
 });
 
