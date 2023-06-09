@@ -15,24 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 string jwtSecretKey = builder.Configuration["MyTokens:JwtSecretKey"];
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//}).AddJwtBearer(options =>
-//{
-//    options.Authority = builder.Configuration["GoogleAuth:Authority"];
-//    options.Audience = builder.Configuration["GoogleAuth:ClientId"];
-//    options.MetadataAddress = builder.Configuration["GoogleAuth:GoogleKeys"];
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true
-//    };
-//});
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = "User";
